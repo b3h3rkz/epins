@@ -331,12 +331,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 #
 #
 CORS_ORIGIN_WHITELIST = ()
-
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-
 ALLOWED_HOSTS = ['*']
 APPEND_SLASH = False
 
@@ -345,16 +341,6 @@ SELL_ORDER_PREFIX = 'BTSB'
 DEPOSIT_PREFIX = 'BTB'
 
 HUBTEL_BASE_URL = 'https://api.hubtel.com/v1/merchantaccount/merchants/HM0111170013/receive/mobilemoney'
-
-
-
-cloudinary.config( 
-  cloud_name="py",
-  api_key="974375294473519",
-  api_secret="J0qaRgA7qJK19uwBXu-G7asq1wM"
-)
-
-
 
 SESSION_COOKIE_SECURE = False
 
