@@ -16,7 +16,6 @@ from barbary.users.views import (
 from currency.views import CurrencyModelViewSet, CurrencyPublicListModelViewSet
 from orders.views import (
     BuyOrdersModelViewSet,
-    AdminBuyOrdersModelViewset,
 )
 from wallet.views import (WalletModelViewSet,
                           AdminWalletModelViewSet, 

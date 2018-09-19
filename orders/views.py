@@ -33,26 +33,6 @@ class BuyOrdersModelViewSet(ModelViewSet):
     def get_queryset(self):
         return BuyOrder.objects.filter(user=self.request.user).order_by('-modified_on')
 
-    def create(self, request, *args, **kwargs):
-        # generate a random unique value as order reference
-        request.data['reference_id'] = settings.BUY_ORDER_PREFIX \
-                                       + ''.join(random.sample((ascii_uppercase+digits), 4))\
-                                       + 'L'
-
-        user_account_balance = self.get_account_balance(request.user.id)
-        total_cost = self.calculate_total_cost(request.data['coin'], request.data['amount'])
-        self.debit_wallet(total_cost, request.user.id)
-
-        if total_cost > user_account_balance:
-            return Response({"error": "Insufficient Funds"},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        if request.data['amount'] < 10:
-            return Response({"error": "Amount is less than minimum allowed"},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        else:
-            return Response({"error": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
 
     def get_account_balance(self, user_id):
         """
@@ -74,16 +54,6 @@ class BuyOrdersModelViewSet(ModelViewSet):
         wallet.current_balance = wallet.current_balance - amount
         wallet.save()
         return wallet.current_balance
-
-    def calculate_total_cost(self, coin, amount):
-        """
-        get the price of the coin per USD in local currency
-        :return: float
-        """
-        coin = Currency.objects.get(id=coin)
-        total = amount * coin.buy_rate
-        return total
-
 
 
 
