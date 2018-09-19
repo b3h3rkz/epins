@@ -22,8 +22,6 @@ from wallet.views import (WalletModelViewSet,
                           AdminWalletModelViewSet, 
                           DepositModelViewSet,
                           ManualDepositModelViewSet, )
-
-from bills.views import ServiceModelViewSet
 from country.views import CountryModelViewSet
 from rest_framework import routers
 
@@ -41,15 +39,9 @@ router.register(r'currencies', CurrencyModelViewSet)
 
 
 urlpatterns = [
-     # Django Admin, use {% url 'admin:index' %}
      url(settings.ADMIN_URL, admin.site.urls),
-    #  url(r'^', include('django.contrib.auth.urls')),
      url(r'^', include('rest_framework_docs.urls')),
-
-    #  url(r'^$', schema_view),
-
      url(r'^accounts/', include('allauth.urls')),
-     #auth urls
      url(r'^rest-auth/registration/account-email-verification-sent/', null_view, name='account_email_verification_sent'),
      url(r'^rest-auth/registration/account-confirm-email/', null_view, name='account_confirm_email'),
      url(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',null_view, name='password_reset_confirm'),
