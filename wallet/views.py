@@ -28,33 +28,10 @@ from .choices import *
 import hashlib
 import requests
 from django.conf import settings
-from orders.process_order import *
 from voucher.models import Voucher
 
 
-def validate_address(address, coin):
-    url = 'https://shapeshift.io/validateAddress/' + address + '/' + coin
-    res = requests.get(url)
-    valid = dict(res.json())
-    valid = list(valid.values())
-    print(valid)
-    return valid[0]
 
-
-def send(address, amount):
-    guid = '82f06008-1438-4fbe-82f0-96537b6b866c'
-    url = 'http://localhost:3000/merchant/' + guid + '/payment'
-    params = {
-        'password': "BOBlane9090..",
-        'second_password': 'BOBlane9090...',
-        'to': address,
-        'amount': 7700,
-        'from': 0,
-        'fee_per_byte': 5
-    }
-    send_payment = requests.get(url, params=params)
-    print(send_payment.text)
-    return send_payment.json()
 
 
 class ManualDepositModelViewSet(ModelViewSet):
@@ -156,109 +133,6 @@ class WalletModelViewSet(ModelViewSet):
         response = requests.get(url, params=payload, headers=headers)
         return Response({'payurl': response.text, 'payload': payload})
 
-    @csrf_exempt
-    @list_route(methods=['POST'], permission_classes=[AllowAny])
-    def calculate_local(self, request):
-        # vouchers = ["090401", "122340", "233433", "343455"]
-        pin = request.data['pin']
-        amount = 1
-        try:
-            voucher = Voucher.objects.get(pin=pin)
-            print(voucher.used)
-            if voucher.used:
-                return Response({"error": "This voucher has already been used"}, status=status.HTTP_404_NOT_FOUND)
-
-            if not voucher.used:
-                params = {
-                    'value': amount,
-                    'currency': 'USD'
-                }
-                satoshi = requests.get("https://blockchain.info/tobtc", params=params)
-                return Response({"satoshi": float(satoshi.text)}, status=status.HTTP_200_OK)
-        except ObjectDoesNotExist:
-            return Response({"error": "This voucher does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-            # if amount < 10:
-            #     return Response({"satoshi": float(satoshi.text)}, status=status.HTTP_404_NOT_FOUND)
-            # if amount > 100:
-            #     return Response({"satoshi": float(satoshi.text)}, status=status.HTTP_404_NOT_FOUND)
-            # return Response({'satoshi': float(satoshi.text)}
-
-    @csrf_exempt
-    @list_route(methods=['POST'], permission_classes=[AllowAny])
-    def send(self, request):
-        pin = request.data['pin']
-        try:
-            voucher = Voucher.objects.get(pin=pin)
-            amount = 1
-            if voucher.used:
-                return Response({"error": "This voucher has already been used"}, status=status.HTTP_404_NOT_FOUND)
-
-            if not voucher.used:
-                params = {
-                    'value': amount,
-                    'currency': 'USD'
-                }
-                satoshi = requests.get("https://blockchain.info/tobtc", params=params)
-                satoshi = satoshi.text
-                satoshi = satoshi.lstrip('0')
-                send_btc = send(request.data['address'], satoshi)
-                if 'message' in send_btc:
-                    voucher.used = True
-                    voucher.save()
-                return Response({"txid": send_btc['txid']}, status=status.HTTP_200_OK)
-        except ObjectDoesNotExist:
-            return Response({"error": "This voucher does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
-    @csrf_exempt
-    @list_route(methods=['POST'], permission_classes=[AllowAny])
-    def validate_address(self, request):
-        validated_address = validate_address(request.data['address'], 'BTC')
-
-        if not validated_address:
-            return Response({"error": "Address is invalid"},
-                            status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"message": "Address is valid"},
-                            status=status.HTTP_200_OK)
-
-
-    # def check_voucher(self):
-    #     if pin == 1000:
-    #         return
-
-    @csrf_exempt
-    @list_route(methods=['POST'], permission_classes=[AllowAny])
-    def request_pay_link(self, request):
-        validated_address = validate_address(request.data['address'], 'BTC')
-
-        if not validated_address:
-            return Response({"error": "Address is invalid"},
-                            status=status.HTTP_400_BAD_REQUEST)
-        url = "https://voguepay.com/"
-        headers = {'Content-Type': 'application/json'}
-        amount = request.data['amount']
-
-        if request.data['currency'] == "NGN":
-            amount_to_pay = amount * settings.NAIRA
-        if request.data['currency'] == "GHS":
-            amount_to_pay = amount * settings.CEDIS
-
-        payload = {
-            "total": amount_to_pay,
-            "memo": "Bitcoin Purchase",
-            "name": 'Bitnob',
-            "cur": request.data['currency'],
-            "merchant_ref": "BTBDEP" + ''.join(random.sample((ascii_uppercase + digits), 4)),
-            "value": amount
-        }
-        return Response({'payload': payload})
-
 
     @detail_route(methods=['PUT'])
     def ravepayment_request(self, request, pk=None, *args, **kwargs):
@@ -278,7 +152,6 @@ class WalletModelViewSet(ModelViewSet):
             "customer_phone": request.data['phone'],
             "txref": "MG-" + ''.join(random.sample((ascii_uppercase+digits), 4))
         }
-
     # sort payload and concatenate into a single string
         sorted_payload = sorted(payload)
 
@@ -358,15 +231,4 @@ class AdminWalletModelViewSet(ModelViewSet):
     serializer_class = WalletModelSerializer
     permission_classes = [IsAuthenticated]
     queryset = Wallet.objects.all()
-    #
-    # @detail_route(methods=['PUT'])
-    # def deposit(self, request, pk=None):
-    #     print(request)
-    #     ref_code = ''.join(random.sample((ascii_uppercase+digits), 4))
-    #     transaction = Transaction(wallet=request.data['wallet'],
-    #                               value=request.data['value'],
-    #                               transaction_type='deposit',
-    #                               ref_code=ref_code)
-    #     serializer = self.get_serializer(transaction)
-    #     return Response(serializer.data)
 
