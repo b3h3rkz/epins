@@ -69,7 +69,7 @@ class User(AbstractUser):
 
 
 class Verification(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name='user_verification')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_verification')
     id_front = models.URLField(unique=False)
     id_number = models.CharField(max_length=20, null=True)
     id_back = models.URLField(unique=False)

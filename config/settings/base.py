@@ -75,6 +75,7 @@ LOCAL_APPS = [
     'wallet',
     'voucher',
     'country',
+    'business',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

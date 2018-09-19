@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from allauth.account.views import ConfirmEmailView
 from django.http import JsonResponse
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.views import APIView
 from .models import User, UserLoginHistory
 from .serializers import (
@@ -113,11 +113,11 @@ class UserModelViewSet(ModelViewSet):
     """
     model = User
     permission_classes = [IsAuthenticated]
-    # queryset = User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserModelSerializer
 
-    def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)
+    # def get_queryset(self):
+    #     return User.objects.filter(id=self.request.user.id)
 
     @list_route(methods=['[POST', 'PUT'])
     def uploads(self, request):
