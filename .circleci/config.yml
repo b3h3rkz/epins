@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.6.1
+        environment:
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements/production.txt" }}
+      - run:
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements/production.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements/production.txt" }}
+          paths:
+            - "venv"
+      - run:
+          command:
+            . venv/bin/activate
+            python manage.py test
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1

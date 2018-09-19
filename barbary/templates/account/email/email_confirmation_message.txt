@@ -1,0 +1,9 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+
+Hello from {{ site_name }}!
+
+Thank you for signing up for an account with us, please confirm your email to have full access to your account here {{ activate_url }}
+
+{% endblocktrans %}{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}  {{ site_name }}!
+{{% endblocktrans %}

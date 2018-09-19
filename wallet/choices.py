@@ -1,0 +1,5 @@
+DEPOSIT = "deposit"
+WITHDRAWAL = "withdrawal"
+PENDING = "pending"
+PROCESSING = "processing"
+COMPLETED = "completed"
