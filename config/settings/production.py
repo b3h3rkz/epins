@@ -63,7 +63,7 @@ X_FRAME_OPTIONS = 'DENY'
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts
 # ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com', ])
-ALLOWED_HOSTS = ['*', 'https://quickserve.bitnob.com/']
+ALLOWED_HOSTS = ['*', 'https://resellers.bitnob.com/']
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += ['gunicorn', ]
@@ -114,9 +114,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_FROM_EMAIL = 'Bitnob <noreply@bitnob.com>'
 EMAIL_SUBJECT_PREFIX = 'Bitnob'
-
 SERVER_EMAIL = 'Bitnob'
-
 
 # Anymail with Mailgun
 INSTALLED_APPS += ['anymail', ]
@@ -221,8 +219,6 @@ CACHES = {
 #     'DSN': SENTRY_DSN
 # }
 
-# Custom Admin URL, use {% url 'admin:index' %}
-# ADMIN_URL = env('DJANGO_ADMIN_URL', default="^")
 ADMIN_URL = r'^admin-dashboard'
 
 # DATABASE_URL = env('DATABASE_URL')
@@ -230,10 +226,8 @@ ADMIN_URL = r'^admin-dashboard'
 # Your production stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
 
-URL_FRONT = 'https://exchange.bitnob.com/#/'
+URL_FRONT = 'https://reseller.bitnob.com/#/'
 ACCOUNT_PASSWORD_RESET_CONFIRM = URL_FRONT + 'access/password-reset/confirm/'
-BVN_API_ENDPOINT = 'https://api.ravepay.co/v2/kyc/bvn'
-INCLUSIVE_FT_API = 'https://api.inclusiveft.com/v1/GH/search/'
 
 
 #998809  wahab
