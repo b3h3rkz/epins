@@ -12,9 +12,13 @@ class BusinessUnitModelSerializer(ModelSerializer):
     class Meta:
         model = BusinessUnit
         fields = [
+            'id',
             'merchant',
             'name',
             'website_url',
             'logo_url',
             'voucher_length',
         ]
+        read_only_field = (
+            'id',
+        )
