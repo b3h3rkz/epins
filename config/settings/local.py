@@ -25,14 +25,22 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # Note: This key only used for development and testing.
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='>/Inf@>Z=rDlKBn;Wfe<Y4i<8;!Wj?w]bMoR0|A=Ni#B<!Klp1')
 
+# console email backend
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# smpt backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.sendgrid.net'
 # EMAIL_HOST_PASSWORD = 'alakwa336278'
 # EMAIL_HOST_USER = 'boscoalakwa'
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'developer@forever#'
+EMAIL_HOST_USER = 'metesteremail@gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 DEFAULT_FROM_EMAIL = 'Bitnob'

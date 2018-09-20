@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from barbary.users.views import (
@@ -23,7 +24,7 @@ from wallet.views import (WalletModelViewSet,
                           ManualDepositModelViewSet, )
 from country.views import CountryModelViewSet
 from business.views import BusinessUnitViewset
-from rest_framework import routers
+from voucher.views import VoucherModelViewset
 
 router = routers.DefaultRouter()
 
@@ -37,6 +38,7 @@ router.register(r'countries', CountryModelViewSet, base_name='countries')
 router.register(r'wallets', WalletModelViewSet, base_name='admin_wallets')
 router.register(r'currencies', CurrencyModelViewSet)
 router.register(r'business_units', BusinessUnitViewset, base_name='business_units')
+router.register(r'vouchers', VoucherModelViewset, base_name='vouchers')
 
 
 urlpatterns = [
