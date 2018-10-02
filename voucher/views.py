@@ -77,5 +77,5 @@ class VoucherModelViewset(ModelViewSet):
         msg.send()
 
         return Response(
-            data= {"message": "Working", "status": 200}
+            data={"message": "Working", "status": 200}
         )

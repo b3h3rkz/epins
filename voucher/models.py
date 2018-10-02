@@ -4,6 +4,7 @@ from django.conf import settings
 from business.models import BusinessUnit
 from currency.models import Currency
 
+
 class Voucher(models.Model):
     business_unit = models.ForeignKey(BusinessUnit, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)

@@ -8,7 +8,7 @@ from rest_framework.status import HTTP_202_ACCEPTED
 
 from barbary.users.models import User
 from .models import BusinessUnit
-from .serializers import BusinessUnitModelSerializer
+from .serializers import BusinessUnitModelSerializer, BusinessUnitUserSerializer
 
 
 class BusinessUnitViewset(ModelViewSet):
@@ -18,3 +18,10 @@ class BusinessUnitViewset(ModelViewSet):
 
     def get_queryset(self):
         return BusinessUnit.objects.filter(merchant=self.request.user.id)
+
+
+class BusinessUnitUserViewset(ModelViewSet):
+    model = BusinessUnit
+    serializer_class = BusinessUnitUserSerializer
+    queryset = BusinessUnit.objects.all()
+    permission_classes = [AllowAny]

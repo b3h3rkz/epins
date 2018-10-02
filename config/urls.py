@@ -23,7 +23,7 @@ from wallet.views import (WalletModelViewSet,
                           DepositModelViewSet,
                           ManualDepositModelViewSet, )
 from country.views import CountryModelViewSet
-from business.views import BusinessUnitViewset
+from business.views import BusinessUnitViewset, BusinessUnitUserViewset
 from voucher.views import VoucherModelViewset
 
 router = routers.DefaultRouter()
@@ -39,6 +39,7 @@ router.register(r'wallets', WalletModelViewSet, base_name='admin_wallets')
 router.register(r'currencies', CurrencyModelViewSet)
 router.register(r'business_units', BusinessUnitViewset, base_name='business_units')
 router.register(r'vouchers', VoucherModelViewset, base_name='vouchers')
+router.register(r'users_business_units', BusinessUnitUserViewset, base_name='users_business_units')
 
 
 urlpatterns = [
