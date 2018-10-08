@@ -127,7 +127,7 @@ class UserModelViewSet(ModelViewSet):
         image = cloudinary.uploader.upload(request.data['file'], folder='bitnob')
         return Response(image)
 
-    @detail_route(methods=['[POST', 'GET','PUT'])
+    @detail_route(methods=['[POST', 'GET', 'PUT'])
     def send_verification_sms(self, request, pk=None):
         """
         Send Verification SMS to the user's phone
@@ -222,22 +222,6 @@ class UserModelViewSet(ModelViewSet):
                 )
 
         return Response(status=200, data={"message": "Successfully Verified Account"})
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if not request.user.verification_completed:
-            instance.verification_in_progress = True
-        
-        if request.data['id_front'] and request.data['id_back']:
-            instance.id_front = request.data['id_front']
-            instance.id_back = request.data['id_back']
-            instance.save()
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        instance.save()
-        return Response(serializer.data)
 
 
 class UserLoginHistoryModelViewSet(ModelViewSet):

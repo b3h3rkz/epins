@@ -7,7 +7,7 @@ from rest_framework.serializers import (
 from .models import BusinessUnit
 
 
-class BusinessUnitModelSerializer(ModelSerializer):
+class BusinessUnitUserSerializer(ModelSerializer):
     merchant = PrimaryKeyRelatedField(read_only=True, default=CurrentUserDefault())
 
     class Meta:
@@ -25,7 +25,7 @@ class BusinessUnitModelSerializer(ModelSerializer):
         )
 
 
-class BusinessUnitUserSerializer(ModelSerializer):
+class BusinessUnitSerializer(ModelSerializer):
 
     class Meta:
         model = BusinessUnit

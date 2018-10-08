@@ -22,7 +22,7 @@ from wallet.views import (WalletModelViewSet,
                           AdminWalletModelViewSet, 
                           DepositModelViewSet,
                           ManualDepositModelViewSet, )
-from country.views import CountryModelViewSet
+from country.views import CountryModelViewSet, CountryAdminModelViewSet
 from business.views import BusinessUnitViewset, BusinessUnitUserViewset
 from voucher.views import VoucherModelViewset
 
@@ -35,11 +35,12 @@ router.register(r'users', UserModelViewSet, base_name='user_acct')
 router.register(r'deposits', DepositModelViewSet, base_name='deposits')
 router.register(r'manual_deposit', ManualDepositModelViewSet, base_name='manual_deposits')
 router.register(r'countries', CountryModelViewSet, base_name='countries')
+router.register(r'admin_countries', CountryAdminModelViewSet, base_name='admin_countries')
 router.register(r'wallets', WalletModelViewSet, base_name='admin_wallets')
 router.register(r'currencies', CurrencyModelViewSet)
 router.register(r'business_units', BusinessUnitViewset, base_name='business_units')
+router.register(r'business_units_users', BusinessUnitUserViewset, base_name='business_units_users')
 router.register(r'vouchers', VoucherModelViewset, base_name='vouchers')
-router.register(r'users_business_units', BusinessUnitUserViewset, base_name='users_business_units')
 
 
 urlpatterns = [
