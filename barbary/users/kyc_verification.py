@@ -81,7 +81,7 @@ headers = {
     'accept': 'application/json',
 }
 
-url = settings.INCLUSIVE_FT_API
+# url = settings.INCLUSIVE_FT_API
 
 # response = {'status': 200, 'success': True,
 # 'data': {'id': '5702038018', 'pollingStation': 'C020409B', 'name': 'KWABENA OKYIRE APPIANING',

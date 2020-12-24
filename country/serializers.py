@@ -16,3 +16,11 @@ class CountryModelSerializer(ModelSerializer):
     class Meta:
         model = Country
         fields = ['id', 'name', 'iso_code', 'currency', 'active']
+        read_only_fields = ['id', 'name', 'iso_code', 'currency', 'active']
+
+
+class CountryAdminModelSerializer(ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ['id', 'name', 'iso_code', 'currency', 'active']
+        read_only_fields = ['id', ]

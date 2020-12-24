@@ -67,18 +67,6 @@ class User(AbstractUser):
         new_users = User.objects.filter(date_joined__lte=today)
         return new_users
 
-
-class Verification(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name='user_verification')
-    id_front = models.URLField(unique=False)
-    id_number = models.CharField(max_length=20, null=True)
-    id_back = models.URLField(unique=False)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.id
-
     
 class UserAnalytics(User):
 

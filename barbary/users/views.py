@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from allauth.account.views import ConfirmEmailView
 from django.http import JsonResponse
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.views import APIView
 from .models import User, UserLoginHistory
 from .serializers import (
@@ -113,11 +113,11 @@ class UserModelViewSet(ModelViewSet):
     """
     model = User
     permission_classes = [IsAuthenticated]
-    # queryset = User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserModelSerializer
 
-    def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)
+    # def get_queryset(self):
+    #     return User.objects.filter(id=self.request.user.id)
 
     @list_route(methods=['[POST', 'PUT'])
     def uploads(self, request):
@@ -127,7 +127,7 @@ class UserModelViewSet(ModelViewSet):
         image = cloudinary.uploader.upload(request.data['file'], folder='bitnob')
         return Response(image)
 
-    @detail_route(methods=['[POST', 'GET','PUT'])
+    @detail_route(methods=['[POST', 'GET', 'PUT'])
     def send_verification_sms(self, request, pk=None):
         """
         Send Verification SMS to the user's phone
@@ -222,22 +222,6 @@ class UserModelViewSet(ModelViewSet):
                 )
 
         return Response(status=200, data={"message": "Successfully Verified Account"})
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if not request.user.verification_completed:
-            instance.verification_in_progress = True
-        
-        if request.data['id_front'] and request.data['id_back']:
-            instance.id_front = request.data['id_front']
-            instance.id_back = request.data['id_back']
-            instance.save()
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        instance.save()
-        return Response(serializer.data)
 
 
 class UserLoginHistoryModelViewSet(ModelViewSet):

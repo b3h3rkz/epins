@@ -122,10 +122,18 @@ INSTALLED_APPS += ['anymail', ]
 #     'MAILGUN_API_KEY': env('DJANGO_MAILGUN_API_KEY'),
 #     'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN')
 # }
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_HOST_PASSWORD = 'alakwa336278'
+# EMAIL_HOST_USER = 'boscoalakwa'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_PASSWORD = 'alakwa336278'
-EMAIL_HOST_USER = 'boscoalakwa'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'developer@forever#'
+EMAIL_HOST_USER = 'metesteremail@gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
