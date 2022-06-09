@@ -15,7 +15,7 @@ cffi==1.11.5
 chardet==2.3.0
 click==6.7
 cloudinary==1.11.0
-cookiecutter==1.5.1
+cookiecutter==2.1.1
 coreapi==2.3.3
 coreschema==0.0.4
 coverage==4.3.4
